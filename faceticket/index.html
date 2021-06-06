@@ -38,6 +38,8 @@
       img.onload = function() {
         c.width = img.width;
         c.height = img.height;
+        ctx.canvas.width  = window.innerWidth;
+        ctx.canvas.height = window.innerHeight;
         ctx.drawImage(img, 0, 0);
       };
  
