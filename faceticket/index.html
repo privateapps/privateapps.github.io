@@ -1,89 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-label.cameraButton {
-  display: inline-block;
-  margin: 1em 0;
-
-  /* Styles to make it look like a button */
-  padding: 0.5em;
-  border: 2px solid #666;
-  border-color: #EEE #CCC #CCC #EEE;
-  background-color: #DDD;
-}
-
-/* Look like a clicked/depressed button */
-label.cameraButton:active {
-  border-color: #CCC #EEE #EEE #CCC;
-}
-
-/* This is the part that actually hides the 'Choose file' text box for camera inputs */
-label.cameraButton input[accept*="camera"] {
-  display: none;
-}
-  </style>
-</head>
+<html>
 <body>
-  <h1>Face Ticket</h1>
-  <label class="cameraButton">Take a picture
-    <input type="file" id="mypic" accept="image/*" capture="user">
-  </label>
-  <canvas width="320px"></canvas>
-  <br>
-  <script>
-  var input = document.querySelector('input[type=file]'); // see Example 4
-  input.onchange = function () {
-    var file = input.files[0];
-    //upload(file);
-    drawOnCanvas(file);   // see Example 6
-    //displayAsImage(file); // see Example 7
+<video id="player" controls autoplay></video>
+<button id="capture">Capture</button>
+<canvas id="canvas" width=320 height=240></canvas>
+<script>
+  const player = document.getElementById('player');
+  const canvas = document.getElementById('canvas');
+  const context = canvas.getContext('2d');
+  const captureButton = document.getElementById('capture');
+
+  const constraints = {
+    video: true,
   };
- 
-  function upload(file) {
-    var form = new FormData(),
-        xhr = new XMLHttpRequest();
- 
-    form.append('image', file);
-    xhr.open('post', 'server.php', true);
-    xhr.send(form);
-  }
- 
-  function drawOnCanvas(file) {
-    var reader = new FileReader();
-    reader.onload = function (e) {
-      var dataURL = e.target.result,
-          c = document.querySelector('canvas'), // see Example 4
-          ctx = c.getContext('2d'),
-          img = new Image();
- 
-      img.onload = function() {
-        c.width = img.width;
-        c.height = img.height;
-        ctx.drawImage(img, 0, 0);
-      };
- 
-      img.src = dataURL;
-    };
- 
-    reader.readAsDataURL(file);
-  }
- 
-  function displayAsImage(file) {
-    var imgURL = URL.createObjectURL(file),
-        img = document.createElement('img');
- 
-    img.onload = function() {
-      URL.revokeObjectURL(imgURL);
-    };
- 
-    img.src = imgURL;
-    document.body.appendChild(img);
-  }
-  </script>
-<!-- source: http://www.w3.org/TR/html-media-capture/ -->
+
+  captureButton.addEventListener('click', () => {
+    // Draw the video frame to the canvas.
+    context.drawImage(player, 0, 0, canvas.width, canvas.height);
+
+    // Stop all video streams.
+    player.srcObject.getVideoTracks().forEach(track => track.stop());
+  });
+
+  // Attach the video stream to the video element and autoplay.
+  navigator.mediaDevices.getUserMedia(constraints)
+    .then((stream) => {
+      player.srcObject = stream;
+    });
+</script>
 </body>
 </html>
 
