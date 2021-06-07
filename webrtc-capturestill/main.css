@@ -19,11 +19,13 @@
 .camera {
   width: 160px;
   display:inline-block;
+  float: left;
 }
 
 .output {
   width: 160px;
   display:inline-block;
+  float: right;
 }
 
 #startbutton {
@@ -44,4 +46,5 @@
   font-size: 16px;
   font-family: "Lucida Grande", "Arial", sans-serif;
   width: 320px;
+  margin: 0 auto;
 }
