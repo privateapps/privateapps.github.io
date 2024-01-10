@@ -1,20 +1,13 @@
 {
   "files": {
-    "main.css": "/life-log/static/css/main.8acea008.chunk.css",
-    "main.js": "/life-log/static/js/main.486c56a8.chunk.js",
-    "main.js.map": "/life-log/static/js/main.486c56a8.chunk.js.map",
-    "runtime-main.js": "/life-log/static/js/runtime-main.0209d9f1.js",
-    "runtime-main.js.map": "/life-log/static/js/runtime-main.0209d9f1.js.map",
-    "static/js/2.a7d18d4f.chunk.js": "/life-log/static/js/2.a7d18d4f.chunk.js",
-    "static/js/2.a7d18d4f.chunk.js.map": "/life-log/static/js/2.a7d18d4f.chunk.js.map",
+    "main.css": "/life-log/static/css/main.ebfa9cd5.css",
+    "main.js": "/life-log/static/js/main.30370418.js",
     "index.html": "/life-log/index.html",
-    "static/css/main.8acea008.chunk.css.map": "/life-log/static/css/main.8acea008.chunk.css.map",
-    "static/js/2.a7d18d4f.chunk.js.LICENSE.txt": "/life-log/static/js/2.a7d18d4f.chunk.js.LICENSE.txt"
+    "main.ebfa9cd5.css.map": "/life-log/static/css/main.ebfa9cd5.css.map",
+    "main.30370418.js.map": "/life-log/static/js/main.30370418.js.map"
   },
   "entrypoints": [
-    "static/js/runtime-main.0209d9f1.js",
-    "static/js/2.a7d18d4f.chunk.js",
-    "static/css/main.8acea008.chunk.css",
-    "static/js/main.486c56a8.chunk.js"
+    "static/css/main.ebfa9cd5.css",
+    "static/js/main.30370418.js"
   ]
 }
