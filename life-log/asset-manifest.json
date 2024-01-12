@@ -1,13 +1,14 @@
 {
   "files": {
-    "main.css": "/life-log/static/css/main.ebfa9cd5.css",
-    "main.js": "/life-log/static/js/main.259d43d5.js",
+    "main.css": "/life-log/static/css/main.75cc350f.css",
+    "main.js": "/life-log/static/js/main.36c32c72.js",
+    "service-worker.js": "/life-log/service-worker.js",
     "index.html": "/life-log/index.html",
-    "main.ebfa9cd5.css.map": "/life-log/static/css/main.ebfa9cd5.css.map",
-    "main.259d43d5.js.map": "/life-log/static/js/main.259d43d5.js.map"
+    "main.75cc350f.css.map": "/life-log/static/css/main.75cc350f.css.map",
+    "main.36c32c72.js.map": "/life-log/static/js/main.36c32c72.js.map"
   },
   "entrypoints": [
-    "static/css/main.ebfa9cd5.css",
-    "static/js/main.259d43d5.js"
+    "static/css/main.75cc350f.css",
+    "static/js/main.36c32c72.js"
   ]
 }
