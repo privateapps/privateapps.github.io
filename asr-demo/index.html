@@ -1,18 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-        <meta charset="utf-8" />
-        <title>Simplest In-Browser Speech Recognition</title>
-        <script type="application/javascript" src="vosk.js"></script>
-        <script type="application/javascript" src="index.js"></script>
-        <link rel="stylesheet" href="index.css">
-    </head>
-    <body>
-        Simple In-Browser Speech Recognition 1
-        <div id="wrapper">
-            <button id="trigger" type="button">Start recognition</button>
-            <div id="recognition-result"><span id="partial"></span></div>
-        </div>
-        
-    </body>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Speech Recognizer Demo</title>
+    <script type="application/javascript" src="vosk.js"></script>
+    <script>
+        async function init() {
+            const resultsContainer = document.getElementById('recognition-result');
+            const partialContainer = document.getElementById('partial');
+
+            partialContainer.textContent = "Loading...";
+
+            const channel = new MessageChannel();
+            const model = await Vosk.createModel('/asr-demo/model.tar.gz');
+            //const model = await Vosk.createModel('model.tar.gz');
+            model.registerPort(channel.port1);
+
+            const sampleRate = 48000;
+
+            const recognizer = new model.KaldiRecognizer(sampleRate);
+            recognizer.setWords(true);
+
+            recognizer.on("result", (message) => {
+                const result = message.result;
+                // console.log(JSON.stringify(result, null, 2));
+
+                const newSpan = document.createElement('span');
+                newSpan.textContent = `${result.text} `;
+                resultsContainer.insertBefore(newSpan, partialContainer);
+            });
+            recognizer.on("partialresult", (message) => {
+                const partial = message.result.partial;
+
+                partialContainer.textContent = partial;
+            });
+
+            partialContainer.textContent = "Ready";
+
+            const mediaStream = await navigator.mediaDevices.getUserMedia({
+                video: false,
+                audio: {
+                    echoCancellation: true,
+                    noiseSuppression: true,
+                    channelCount: 1,
+                    sampleRate
+                },
+            });
+
+            const audioContext = new AudioContext();
+            await audioContext.audioWorklet.addModule('/asr-demo/recognizer-processor.js')
+            //await audioContext.audioWorklet.addModule('recognizer-processor.js')
+            const recognizerProcessor = new AudioWorkletNode(audioContext, 'recognizer-processor', { channelCount: 1, numberOfInputs: 1, numberOfOutputs: 1 });
+            recognizerProcessor.port.postMessage({ action: 'init', recognizerId: recognizer.id }, [channel.port2])
+            recognizerProcessor.connect(audioContext.destination);
+
+            const source = audioContext.createMediaStreamSource(mediaStream);
+            source.connect(recognizerProcessor);
+        }
+
+        window.onload = () => {
+            const trigger = document.getElementById('trigger');
+            trigger.onmouseup = async () => {
+                trigger.disabled = true;
+                trigger.style.backgroundColor = "red";
+                trigger.textContent = "Now Listening and Transcribing...";
+                await init();
+            };
+        }
+    </script>
+
+    <style>
+        #wrapper {
+            max-width: 900px;
+            margin: auto;
+            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        #trigger {
+            align-self: center;
+            margin: 0.5em;
+            width: 200px;
+            height: 60px;
+            border: none;
+            background-color: rgb(0, 215, 0);
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        #trigger:focus {
+            outline: none;
+        }
+
+        #recognition-result {
+            font-size: 1.5em;
+        }
+
+        #partial {
+            font-size: inherit;
+        }
+    </style>
+</head>
+
+<body>
+    Speech Recognizer Demo v5
+    <div id="wrapper">
+        <button id="trigger" type="button">Start Recognizing Speech</button>
+        <div id="recognition-result"><span id="partial"></span></div>
+    </div>
+
+</body>
+
 </html>
