@@ -5,7 +5,7 @@ async function init() {
     partialContainer.textContent = "Loading...";
     
     const channel = new MessageChannel();
-    const model = await Vosk.createModel('model.tar.gz');
+    const model = await Vosk.createModel('/asr-demo/model.tar.gz');
     model.registerPort(channel.port1);
 
     const sampleRate = 48000;
@@ -40,7 +40,7 @@ async function init() {
     });
     
     const audioContext = new AudioContext();
-    await audioContext.audioWorklet.addModule('recognizer-processor.js')
+    await audioContext.audioWorklet.addModule('/asr-demo/recognizer-processor.js')
     const recognizerProcessor = new AudioWorkletNode(audioContext, 'recognizer-processor', { channelCount: 1, numberOfInputs: 1, numberOfOutputs: 1 });
     recognizerProcessor.port.postMessage({action: 'init', recognizerId: recognizer.id}, [ channel.port2 ])
     recognizerProcessor.connect(audioContext.destination);
