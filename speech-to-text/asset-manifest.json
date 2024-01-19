@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/speech-to-text/static/css/main.6de74fbf.css",
+    "main.js": "/speech-to-text/static/js/main.4961007f.js",
+    "service-worker.js": "/speech-to-text/service-worker.js",
+    "index.html": "/speech-to-text/index.html",
+    "main.6de74fbf.css.map": "/speech-to-text/static/css/main.6de74fbf.css.map",
+    "main.4961007f.js.map": "/speech-to-text/static/js/main.4961007f.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6de74fbf.css",
+    "static/js/main.4961007f.js"
+  ]
+}
